@@ -314,8 +314,7 @@ DB::transaction(function () {
           DB::table('budget_chart')->insert($budget_chart);
       });
 */
-
-
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
          DB::beginTransaction();
         try {
          $sql_subunit          =  DB::table('sub_units')->insert($departments_sub_unit_new_complete);
@@ -328,7 +327,8 @@ DB::transaction(function () {
 
          if($sql_subunit && $sqldeparment && $sqlcategories && $sqlproduct && $sqlcategoriesproduct && $sqlchart && $sqlbudgetchart){
            DB::commit();
-           Session::flash('message', 'Data Has Been Inserted Successfully!!'); 
+           Session::flash('message', 'Data Has Been Inserted Successfully!!');
+           DB::statement('SET FOREIGN_KEY_CHECKS=1;');
          }else{
           DB::rollback();
           Session::flash('Alert', 'Data Has Not Been Inserted Please Try Again!!'); 
